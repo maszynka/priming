@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import { Input } from 'antd';
+// import { Input } from 'antd';
 
 import logo from './logo.svg';
 import './App.css';
@@ -35,13 +35,19 @@ const Question = ({question, type, answers, p})=> {
         }, 50)
     };
 
+    const [value, setValue] = useState('');
+
     useEffect(()=>{
         console.log('fired')
         setTimeout(startFun, 500)
     }, []);
-    return <Input placeholder={placeholder}>
-
-    </Input>
+    
+    return (
+    <div className="question-wrap">
+        <div className="question-label">{question}</div>
+        <input value={value} setValue={setValue}/>
+    </div>
+    )
 }
 
 function App() {
