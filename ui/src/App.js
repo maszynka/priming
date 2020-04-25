@@ -28,7 +28,7 @@ const questions = [
 
 const Question = ({question, type, answers, p})=> {
     const [placeholder, setPlaceholder] = useState(question);
-    const startFun = ()=>{
+    const startFun = ()=> {
         setPlaceholder(p);
         setTimeout(()=>{
             setPlaceholder(question);
@@ -39,6 +39,17 @@ const Question = ({question, type, answers, p})=> {
         console.log('fired')
         setTimeout(startFun, 500)
     }, []);
+
+    const AnswerInput = {
+        select: ()=> (
+            <Select>
+                {answers.map(
+                    (answer, i) => <option key={i}>{answer}</option>
+                )}
+            </Select>
+        ),
+        input: () => <input value={value} onChange={setValue} />
+    };
     return <Input placeholder={placeholder}>
 
     </Input>
