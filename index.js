@@ -37,7 +37,6 @@ const arrayAverage = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
 
 const arraySum = arr => arr.reduce( ( p, c ) => p + c, 0 );
 
-
 const stats = {
   min: Number.POSITIVE_INFINITY,
   max: Number.NEGATIVE_INFINITY,
@@ -60,7 +59,7 @@ const countMinMaxAndAverage = (frames) => {
   }
 }
 
-/* setInterval(()=>{
+/* setInterval(() => {
   console.log(framess)
 }, 10000) */
 

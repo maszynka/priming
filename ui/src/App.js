@@ -1,15 +1,17 @@
 import React, {useEffect, useState } from 'react';
-import { Input } from 'antd';
+// import { Input } from 'antd';
 
 import logo from './logo.svg';
 import './App.css';
 import AffectiveSlider from "./AffectiveSlider";
 
+const prieMs = 50;
+
 const questions = [
     {
         question: 'Płeć',
         type: 'select',
-        answers: ['Mężczyzna, Kobieta, Wolę nie mówić, Inna'],
+        answers: ['Mężczyzna', 'Kobieta', 'Wolę nie mówić', 'Inna'],
         p: 'Uśmiech',
     },
     {
@@ -23,36 +25,72 @@ const questions = [
         type: 'select',
         answers: ['do 50 tyś. mieszkańsów', 'między 50 a 100 tyś. mieszkańsów', 'między 100 a 250 tyś. mieszkańsów', 'powyżej 500 tyś. mieszkańsów'],
         p: 'Dobro'
+    },
+    {
+        question: 'Wykształcenie',
+        type: 'select',
+        answers: ['Podstawowe', 'Średnie', 'Wyższe'],
+        p: 'Spełnienie'
+    },
+    {
+        type: 'affectiveSlider'
     }
 ];
 
+
 const Question = ({question, type, answers, p})=> {
-    const [placeholder, setPlaceholder] = useState(question);
-    const startFun = ()=> {
-        setPlaceholder(p);
+    //const [placeholder, setPlaceholder] = useState(question);
+    const [usedQuestion, setUsedQuestion] = useState(question);
+    const letsPrime = ()=> {
+        setUsedQuestion(p);
         setTimeout(()=>{
-            setPlaceholder(question);
-        }, 50)
+            setUsedQuestion(question);
+        }, prieMs)
     };
 
-    useEffect(()=>{
-        console.log('fired')
-        setTimeout(startFun, 500)
-    }, []);
+    const [primed, setPrimed] = useState(false);
 
-    const AnswerInput = {
-        select: ()=> (
-            <Select>
-                {answers.map(
-                    (answer, i) => <option key={i}>{answer}</option>
-                )}
-            </Select>
-        ),
-        input: () => <input value={value} onChange={setValue} />
+    const onClick = ()=> {
+        if (primed) return;
+
+        letsPrime();
+        setPrimed(true);
     };
-    return <Input placeholder={placeholder}>
 
-    </Input>
+
+    const [value, setValue] = useState('');
+
+    const AnswerInput = ({className, type, answers, p, onClick})=> {
+
+        const inputType = {
+            select: () => (
+                <select className={className} value={value} onChange={setValue} onClick={onClick}>
+                    {answers.map(
+                        (answer) => {
+                            console.log(answer);
+                            const optionValue = encodeURI(answer);
+                            return <option key={optionValue} value={optionValue}>{answer}</option>
+                        }
+                    )}
+                </select>
+            ),
+            input: () => <input className={className} value={value} onChange={setValue}/>,
+            affectiveSlider: ()=>null,
+        }
+        const prevQuestion = ()=>{};
+        const nextQuestion = ()=>{
+            setCurrentQustion()
+        };
+        return inputType[type]();
+    };
+    return (
+            <div className="question-wrap">
+                <span className="question-label">{usedQuestion}</span>
+                <AnswerInput className="question-answer" type={type} answers={answers} p={p} onClick={onClick}/>
+                {/*<input value={value} setValue={setValue}/>*/}
+            </div>
+
+    )
 }
 
 function App() {
@@ -61,11 +99,20 @@ function App() {
         startTimestamp = startTimestamp || Date.now();
         window.startTimestamp = startTimestamp;
     }, []);
+
+    const [currentQuestion, setCurrentQustion] = useState(0);
+
+
   return (
     <div className="App">
       <header className="App-header">
-          {questions.map(questionData => <Question {...questionData} key={questionData.question}/>)}
-        <AffectiveSlider/>
+        <div className="question-screen">
+
+            {questions.map(questionData => <Question {...questionData} key={questionData.question}/>)}
+            <AffectiveSlider/>
+            <button className="prev-question" onClick={prevQuestion}></button>
+            <button className="next-question" onClick={nextQuestion}></button>
+        </div>
       </header>
     </div>
   );

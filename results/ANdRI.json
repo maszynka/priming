@@ -1,1 +1,30 @@
-[{"age":"23-27","gender":"m","city":">500","hapiness":3,"x":1,"group":"ANdRI","fps":null,"timestamp":1587592794732}]
+[
+  {
+    "age": "23-27",
+    "gender": "m",
+    "city": ">500",
+    "hapiness": 3,
+    "x": 1,
+    "group": "ANdRI",
+    "fps": null,
+    "timestamp": 1587592794732
+  },
+  {
+    "age": "23-27",
+    "gender": "m",
+    "city": ">500",
+    "hapiness": 3,
+    "x": 1,
+    "group": "ANdRI",
+    "fps": null,
+    "timestamp": 1587592794732
+  }
+]
+/*
+- analizowane zbiorczo
+- w każdej chwili mogą zrezygnować
+- badanie jest anonimowe
+
+Wyniki analizowane będą zbiorczo oraz udostępnione za darmo dla wszystkich zainteresowanych.
+Biorąc udział w ankiecie wyrażasz zgodę na przetwarzanie zebranych danych w celu ich analizy.
+*/

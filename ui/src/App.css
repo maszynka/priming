@@ -1,10 +1,35 @@
 
 body {
   margin: 0px;
-  padding: 0px;
+  padding: 3em;
+  font-size: 18px;
 }
 
 .App {
   text-align: center;
 }
 
+.question-wrap {
+  max-width: 15em;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.question-label {
+  float: left;
+  padding-bottom: .5em;
+}
+
+.question-answer {
+  float: left;
+  clear: both;
+}
+
+.question-screen {
+  width: 100%;
+  height: 100%;
+}
+
+select, input {
+  font-size: .8em;
+}
