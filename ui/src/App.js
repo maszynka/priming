@@ -40,6 +40,7 @@ const questions = [
 const Question = ({question, type, answers, p, setAnswer})=> {
     //const [placeholder, setPlaceholder] = useState(question);
     const [usedQuestion, setUsedQuestion] = useState(question);
+    const [error, setError] = useState(null);
     const letsPrime = ()=> {
         setUsedQuestion(p);
         setTimeout(()=>{
@@ -59,24 +60,50 @@ const Question = ({question, type, answers, p, setAnswer})=> {
     const [value, setValue] = useState('');
     const isValid = (type, newValue) => {
         return {
-            select: () => questions.indexOf(decodeURI(value)) > 0,
-            input: () => value.length > 0,
+            select: () => questions.indexOf(decodeURI(newValue)) > 0,
+            input: () => newValue.length > 0,
             affectiveSlider: () => true
         }[type]()
     };
 
-    const onChange = (...args)=> {
-        if (isValid(type))
-        setValue(...args);
+    const onChange = ({target: value})=> {
+        setValue(value);
+        proxySetAnswer({type, value})
+    };
+
+    const proxySetAnswer = ({type, value}) => {
+        console.log({type, value})
+        if (isValid(type, value)) {
+            if (error) setError(null);
+            setAnswer()
+        } else {
+            if (type === 'select'){
+                setError('Brakujące pole')
+            }
+        }
+    }
+
+    const SplashScreen = ()=> {
+        return <div className="splashScreen">
+            <h1>Badanie aktualnego nastroju uzytkownikow</h1>
+            <p>
+                Prezentowana ankieta bada nastroj uzytkownikow
+            </p>
+            <p>
+                Wyniki analizowane będą zbiorczo oraz udostępnione za darmo dla wszystkich zainteresowanych.
+                Biorąc udział w ankiecie wyrażasz zgodę na przetwarzanie zebranych danych w celu ich analizy.
+            </p>
+
+        </div>
     }
 
     const AnswerInput = ({className, type, answers, p, onClick})=> {
         const inputType = {
             select: () => {
-                const answersWithDefault = ['wybierz opcje...', ...answers];
+                const answersWithDefault = type === 'select' ? ['wybierz opcje...', ...answers] : answers;
 
                 return(
-                    <select className={className} value={value} onChange={setValue} onClick={onClick}>
+                    <select className={className} value={value} onChange={setValue} >
                         {answersWithDefault.map(
                             (answer, i) => {
                                 console.log(answer);
@@ -88,15 +115,17 @@ const Question = ({question, type, answers, p, setAnswer})=> {
                 )
             },
             input: () => <input className={className} value={value} onChange={setValue}/>,
-            affectiveSlider: AffectiveSlider,
-        }
+            affectiveSlider: ()=> <AffectiveSlider onChange={()=>{}} />,
+        };
 
         return inputType[type]();
     };
+
     return (
             <div className={`question-wrap question-wrap-${type}`}>
+                <span class="error-wrap" hidden={!error}>{error}</span>
                 <span className="question-label">{usedQuestion}</span>
-                <AnswerInput className="question-answer" type={type} answers={answers} p={p} onClick={onClick}/>
+                <AnswerInput className="question-answer" type={type} answers={answers} p={p} />
                 {/*<input value={value} setValue={setValue}/>*/}
             </div>
 
@@ -127,8 +156,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className="question-screen">
-
-            {questions.map((questionData, i) => <Question {...questionData} key={questionData.question} setAnswer={setAnswer(i)}/>)}
+            {
+                questions.map((questionData, i) =>
+                    <Question {...questionData} key={questionData.question} setAnswer={setAnswer(i)}/>
+                )
+            }
             <button disabled={currentlyVisibleQuestion <= 0} className="prev-question" onClick={prevQuestion}>poprzednie</button>
             <button disabled={currentlyVisibleQuestion >= questions.length} className="next-question" onClick={nextQuestion}>kolejne</button>
         </div>
