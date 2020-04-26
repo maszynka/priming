@@ -37,8 +37,7 @@ const questions = [
     }
 ];
 
-
-const Question = ({question, type, answers, p})=> {
+const Question = ({question, type, answers, p, setAnswer})=> {
     //const [placeholder, setPlaceholder] = useState(question);
     const [usedQuestion, setUsedQuestion] = useState(question);
     const letsPrime = ()=> {
@@ -57,34 +56,45 @@ const Question = ({question, type, answers, p})=> {
         setPrimed(true);
     };
 
-
     const [value, setValue] = useState('');
+    const isValid = (type, newValue) => {
+        return {
+            select: () => questions.indexOf(decodeURI(value)) > 0,
+            input: () => value.length > 0,
+            affectiveSlider: () => true
+        }[type]()
+    };
+
+    const onChange = (...args)=> {
+        if (isValid(type))
+        setValue(...args);
+    }
 
     const AnswerInput = ({className, type, answers, p, onClick})=> {
-
         const inputType = {
-            select: () => (
-                <select className={className} value={value} onChange={setValue} onClick={onClick}>
-                    {answers.map(
-                        (answer) => {
-                            console.log(answer);
-                            const optionValue = encodeURI(answer);
-                            return <option key={optionValue} value={optionValue}>{answer}</option>
-                        }
-                    )}
-                </select>
-            ),
+            select: () => {
+                const answersWithDefault = ['wybierz opcje...', ...answers];
+
+                return(
+                    <select className={className} value={value} onChange={setValue} onClick={onClick}>
+                        {answersWithDefault.map(
+                            (answer, i) => {
+                                console.log(answer);
+                                const optionValue = encodeURI(answer);
+                                return <option key={optionValue} value={optionValue} hidden={i === 0}>{answer}</option>
+                            }
+                        )}
+                    </select>
+                )
+            },
             input: () => <input className={className} value={value} onChange={setValue}/>,
-            affectiveSlider: ()=>null,
+            affectiveSlider: AffectiveSlider,
         }
-        const prevQuestion = ()=>{};
-        const nextQuestion = ()=>{
-            setCurrentQustion()
-        };
+
         return inputType[type]();
     };
     return (
-            <div className="question-wrap">
+            <div className={`question-wrap question-wrap-${type}`}>
                 <span className="question-label">{usedQuestion}</span>
                 <AnswerInput className="question-answer" type={type} answers={answers} p={p} onClick={onClick}/>
                 {/*<input value={value} setValue={setValue}/>*/}
@@ -100,18 +110,27 @@ function App() {
         window.startTimestamp = startTimestamp;
     }, []);
 
-    const [currentQuestion, setCurrentQustion] = useState(0);
+    const [answers, setAnswers] = useState([]);
 
+    const setAnswer = (answer, index) => {
+        return (answer) => {
+            const newAnswers = [...answers][index] = answer;
+            setAnswers(newAnswers);
+        }
+    };
+
+    const [currentlyVisibleQuestion, setCurrentlyVisibleQustion] = useState(0);
+    const prevQuestion = ()=>{ setCurrentlyVisibleQustion(currentlyVisibleQuestion - 1) };
+    const nextQuestion = ()=>{ setCurrentlyVisibleQustion(currentlyVisibleQuestion + 1) };
 
   return (
     <div className="App">
       <header className="App-header">
         <div className="question-screen">
 
-            {questions.map(questionData => <Question {...questionData} key={questionData.question}/>)}
-            <AffectiveSlider/>
-            <button className="prev-question" onClick={prevQuestion}></button>
-            <button className="next-question" onClick={nextQuestion}></button>
+            {questions.map((questionData, i) => <Question {...questionData} key={questionData.question} setAnswer={setAnswer(i)}/>)}
+            <button disabled={currentlyVisibleQuestion <= 0} className="prev-question" onClick={prevQuestion}>poprzednie</button>
+            <button disabled={currentlyVisibleQuestion >= questions.length} className="next-question" onClick={nextQuestion}>kolejne</button>
         </div>
       </header>
     </div>

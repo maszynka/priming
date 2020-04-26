@@ -15,6 +15,10 @@ body {
   overflow: hidden;
 }
 
+.question-wrap-affectiveSlider {
+  max-width: 30em;
+}
+
 .question-label {
   float: left;
   padding-bottom: .5em;
