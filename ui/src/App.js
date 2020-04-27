@@ -66,22 +66,22 @@ const Question = ({question, type, answers, p, setAnswer})=> {
         }[type]()
     };
 
-    const onChange = ({target: value})=> {
-        setValue(value);
-        proxySetAnswer({type, value})
-    };
+    // const onChange = ({target: value})=> {
+    //     setValue(value);
+    //     proxySetAnswer({type, value})
+    // };
 
-    const proxySetAnswer = ({type, value}) => {
-        console.log({type, value})
-        if (isValid(type, value)) {
-            if (error) setError(null);
-            setAnswer()
-        } else {
-            if (type === 'select'){
-                setError('Brakujące pole')
-            }
-        }
-    }
+    // const proxySetAnswer = ({type, value}) => {
+    //     console.log({type, value})
+    //     if (isValid(type, value)) {
+    //         if (error) setError(null);
+    //         setAnswer()
+    //     } else {
+    //         if (type === 'select'){
+    //             setError('Brakujące pole')
+    //         }
+    //     }
+    // }
 
     const SplashScreen = ()=> {
         return <div className="splashScreen">
@@ -136,32 +136,34 @@ function App() {
         let {startTimestamp} = window;
         startTimestamp = startTimestamp || Date.now();
         window.startTimestamp = startTimestamp;
+        window.primed = startTimestamp % 2 === 0;
     }, []);
-
-    const [answers, setAnswers] = useState([]);
-
-    const setAnswer = (answer, index) => {
-        return (answer) => {
-            const newAnswers = [...answers][index] = answer;
-            setAnswers(newAnswers);
-        }
-    };
-
-    const [currentlyVisibleQuestion, setCurrentlyVisibleQustion] = useState(0);
-    const prevQuestion = ()=>{ setCurrentlyVisibleQustion(currentlyVisibleQuestion - 1) };
-    const nextQuestion = ()=>{ setCurrentlyVisibleQustion(currentlyVisibleQuestion + 1) };
+    //
+    // const [answers, setAnswers] = useState([]);
+    //
+    // const setAnswer = (answer, index) => {
+    //     return (answer) => {
+    //         const newAnswers = [...answers][index] = answer;
+    //         setAnswers(newAnswers);
+    //     }
+    // };
+    //
+    // const [currentlyVisibleQuestion, setCurrentlyVisibleQustion] = useState(0);
+    // const prevQuestion = ()=>{ setCurrentlyVisibleQustion(currentlyVisibleQuestion - 1) };
+    // const nextQuestion = ()=>{ setCurrentlyVisibleQustion(currentlyVisibleQuestion + 1) };
 
   return (
     <div className="App">
       <form>
         <div className="question-screen">
-            {
-                questions.map((questionData, i) =>
-                    <Question {...questionData} key={questionData.question} setAnswer={setAnswer(i)}/>
-                )
-            }
-            <button disabled={currentlyVisibleQuestion <= 0} className="prev-question" onClick={prevQuestion}>poprzednie</button>
-            <button disabled={currentlyVisibleQuestion >= questions.length} className="next-question" onClick={nextQuestion}>kolejne</button>
+            {/*{*/}
+            {/*    questions.map((questionData, i) =>*/}
+            {/*        <Question {...questionData} key={questionData.question} setAnswer={setAnswer(i)}/>*/}
+            {/*    )*/}
+            {/*}*/}
+            <AffectiveSlider setAnswer={(value) => { console.log(value)}}/>
+            {/*<button disabled={currentlyVisibleQuestion <= 0} className="prev-question" onClick={prevQuestion}>poprzednie</button>*/}
+            {/*<button disabled={currentlyVisibleQuestion >= questions.length} className="next-question" onClick={nextQuestion}>kolejne</button>*/}
         </div>
       </form>
     </div>
