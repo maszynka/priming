@@ -1,8 +1,6 @@
 import './AffectiveSlider.css';
-import debounce from 'lodash.debounce';
-import useDebounce from './helpers/useDebounce';
 
-import React, {memo, useEffect, useState} from 'react';
+import React, { memo } from 'react';
 
 const AffectiveSlider = memo(({handleChange}) => {
 
@@ -41,7 +39,7 @@ const AffectiveSlider = memo(({handleChange}) => {
             <div id='AffectiveSlider'>
                 <div>
 
-                    {window.primed ? (
+                    {window.statSettings.uiRandom ? (
                         <>
                             <Arousal
                                 handleChange={handleChange}
@@ -49,8 +47,8 @@ const AffectiveSlider = memo(({handleChange}) => {
                             <Pleasure
                                 handleChange={handleChange}
                             />
-                        </> )
-                        : (
+                        </>
+                    ) : (
                         <>
                             <Arousal
                                 handleChange={handleChange}
@@ -58,8 +56,8 @@ const AffectiveSlider = memo(({handleChange}) => {
                             <Pleasure
                                 handleChange={handleChange}
                             />
-                        </> )
-                    }
+                        </>
+                    )}
                 </div>
             </div>
         </>
