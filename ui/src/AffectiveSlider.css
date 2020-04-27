@@ -1,5 +1,5 @@
 
-.AffectiveSlider {
+#AffectiveSlider {
     width: 100%;
     text-align: center;
 }
@@ -10,11 +10,11 @@
     margin-bottom: -30px;
 }
 
-.AffectiveSlider {
+#AffectiveSlider {
     margin-top: 2em;
 }
 
-.AffectiveSlider .intensity_cue_svg {
+#AffectiveSlider .intensity_cue_svg {
     width: 78%;
     position: relative;
     top: 0;
@@ -26,19 +26,11 @@
     }
 }
 
-/*@media (max-width: 1100px) {*/
-/*    .AffectiveSlider .intensity_cue_svg {*/
-/*        width: 76%;*/
-/*        position: relative;*/
-/*        top: 5px;*/
-/*    }*/
-/*}*/
-
 input[type=range]:focus {
     outline: none;
 }
 
-.AffectiveSlider input[type=range]{
+#AffectiveSlider input[type=range]{
     /* fix for FF unable to apply focus style bug  */
     border: 10px solid white;
 
@@ -57,7 +49,7 @@ input[type=range]:focus {
 }
 
 
-.AffectiveSlider input[type=range]::-moz-range-track {
+#AffectiveSlider input[type=range]::-moz-range-track {
     width: 100%;
     height: 20px;
     background: #ddd;
@@ -68,7 +60,7 @@ input[type=range]:focus::-moz-range-track {
     background: #ccc;
 }
 
-.AffectiveSlider input[type=range]::-moz-range-thumb {
+#AffectiveSlider input[type=range]::-moz-range-thumb {
     height: 35px;
     width: 35px;
     border-radius: 60%;
@@ -76,7 +68,7 @@ input[type=range]:focus::-moz-range-track {
     border: 2px solid #505050;
 }
 
-.AffectiveSlider input[type=range]::-moz-range-thumb:hover {
+#AffectiveSlider input[type=range]::-moz-range-thumb:hover {
     background: #505050;
     border: 2px solid white;
     cursor: pointer;
@@ -84,7 +76,7 @@ input[type=range]:focus::-moz-range-track {
 }
 
 
-.AffectiveSlider input[type=range]{
+#AffectiveSlider input[type=range]{
     -webkit-appearance: none;
 }
 
@@ -145,7 +137,7 @@ input[type=range]::-ms-thumb {
     background: white;
     border: 2px solid #505050;
 }
-.AffectiveSlider input[type=range]::-ms-thumb:hover {
+#AffectiveSlider input[type=range]::-ms-thumb:hover {
     background: #505050;
     border: 2px solid white;
     cursor: pointer;

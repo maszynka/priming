@@ -41,7 +41,7 @@ const AffectiveSlider = props => {
     );
 
     return (
-        <form className="AffectiveSlider">
+        <>
             <div id='AffectiveSlider'>
                 <div>
                     {Math.random() > 0.5 ?
@@ -56,7 +56,7 @@ const AffectiveSlider = props => {
                     }
                 </div>
             </div>
-        </form>
+        </>
     );
 };
 

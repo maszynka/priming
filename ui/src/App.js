@@ -120,7 +120,6 @@ const Question = ({question, type, answers, p, setAnswer})=> {
 
         return inputType[type]();
     };
-
     return (
             <div className={`question-wrap question-wrap-${type}`}>
                 <span class="error-wrap" hidden={!error}>{error}</span>
@@ -154,7 +153,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <form>
         <div className="question-screen">
             {
                 questions.map((questionData, i) =>
@@ -164,7 +163,7 @@ function App() {
             <button disabled={currentlyVisibleQuestion <= 0} className="prev-question" onClick={prevQuestion}>poprzednie</button>
             <button disabled={currentlyVisibleQuestion >= questions.length} className="next-question" onClick={nextQuestion}>kolejne</button>
         </div>
-      </header>
+      </form>
     </div>
   );
 }
