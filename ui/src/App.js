@@ -77,10 +77,7 @@ const Question = ({question, type, answers, p})=> {
             input: () => <input className={className} value={value} onChange={setValue}/>,
             affectiveSlider: ()=>null,
         }
-        const prevQuestion = ()=>{};
-        const nextQuestion = ()=>{
-            setCurrentQustion()
-        };
+
         return inputType[type]();
     };
     return (
@@ -101,11 +98,15 @@ function App() {
     }, []);
 
     const [currentQuestion, setCurrentQustion] = useState(0);
+    const prevQuestion = ()=>{};
+    const nextQuestion = ()=>{
+        setCurrentQustion()
+    };
 
 
   return (
     <div className="App">
-      <header className="App-header">
+      <form>
         <div className="question-screen">
 
             {questions.map(questionData => <Question {...questionData} key={questionData.question}/>)}
@@ -113,7 +114,7 @@ function App() {
             <button className="prev-question" onClick={prevQuestion}></button>
             <button className="next-question" onClick={nextQuestion}></button>
         </div>
-      </header>
+      </form>
     </div>
   );
 }

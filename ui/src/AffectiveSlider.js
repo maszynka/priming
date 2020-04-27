@@ -7,7 +7,8 @@ const AffectiveSlider = props => {
     const [pleasure, setPleasure] = useState(.5);
 
 
-    const Arousal = ({arousal, setArousal}) => (
+    const Arousal = (
+    ) => (
         <>
             Stopień pobudzenia
             <div className="arousal">
@@ -34,7 +35,7 @@ const AffectiveSlider = props => {
     );
 
     return (
-        <form className="AffectiveSlider">
+        <>
             <div id='AffectiveSlider'>
                 <div>
                     {Math.random() > 0.5 ?
@@ -49,7 +50,7 @@ const AffectiveSlider = props => {
                     }
                 </div>
             </div>
-        </form>
+        </>
     );
 };
 
