@@ -47,22 +47,25 @@ const questions = [
     }
 ];
 
-const SplashScreen = () => {
+const SplashScreen = ({setShowSplashScreen}) => {
     return <div className="splashScreen">
         <h1>Badanie aktualnego nastroju uzytkownikow{statSettings.primed ? '.' : ''}</h1>
         <p>
-            Prezentowana ankieta bada nastroj uzytkownikow
+            Grupa studentów SWPS we Wrocławiu zaprasza do wzięcia udziału w badaniu nastroju.
+            Średni czas trwania badania zajmuje 2 minuty. Zachęcamy do wzięcia udziału.
         </p>
         <p>
             Wyniki analizowane będą zbiorczo oraz udostępnione za darmo dla wszystkich zainteresowanych.
             Biorąc udział w ankiecie wyrażasz zgodę na przetwarzanie zebranych danych w celu ich analizy.
         </p>
+        <button className="btn-main" style={{marginTop: "2em"}} onClick={()=>{setShowSplashScreen(false)}}>Rozpocznij badanie</button>
 
     </div>
 }
 
 function App() {
-    const [ready, setReady] = useState(false);
+    const [ready, setReady] = useState(true);
+    const [showSplashScreen, setShowSplashScreen] = useState(true);
     useEffect(() => {
         generateStatSettings();
         setReady(true);
@@ -95,9 +98,10 @@ function App() {
     };
 
     return (
-        ready ? '' :
+        !ready ? '' :
             <div className="App">
-                <SplashScreen/>
+                { showSplashScreen ? 
+                <SplashScreen setShowSplashScreen={setShowSplashScreen}/> :
                 <form>
                     <div className="question-screen">
                         {
@@ -107,6 +111,11 @@ function App() {
                                     key={questionData.question}
                                     handleChange={handleChange}
                                     visible={currentlyVisibleQuestion === i}
+                                    nextQuestion={
+                                        currentlyVisibleQuestion >= questions.length ?
+                                        null :
+                                        nextQuestion
+                                    }
                                 />
                             )
                         }
@@ -119,6 +128,7 @@ function App() {
                         <button type="submit" onClick={handleSubmit}/>
                     </div>
                 </form>
+                }
             </div>
 
     );

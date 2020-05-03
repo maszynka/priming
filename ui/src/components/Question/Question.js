@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import AffectiveSlider from "./AffectiveSlider";
+import './Question.css';
 
 const prieMs = 50;
 
-export const Question = ({question, type, answers, p, handleChange, visible})=> {
+export const Question = ({question, type, answers, p, handleChange, visible, nextQuestion})=> {
     const [usedQuestion, setUsedQuestion] = useState(question);
     const [error, setError] = useState(null);
     const letsPrime = () => {
@@ -54,12 +55,16 @@ export const Question = ({question, type, answers, p, handleChange, visible})=> 
     };
 
     return (
-        <div className={`question-wrap question-wrap-${type} ${visible}`}>
-            <span class="error-wrap" hidden={!error}>{error}</span>
-            <span className="question-label">{usedQuestion}</span>
-            <AnswerInput className="question-answer" type={type} answers={answers} p={p} handleChange={handleChange} handleClick={handleClick}/>
-            {/*<input value={value} setValue={setValue}/>*/}
+        <div className={`question-outer-wrap ${visible ? 'visible' : ''}`}>
+            <div className={`question-wrap question-wrap-${type} ${visible ? 'visible' : ''}`}>
+                <span class="error-wrap" hidden={!error}>{error}</span>
+                <span className="question-label">{usedQuestion}</span>
+                <AnswerInput className="question-answer" type={type} answers={answers} p={p} handleChange={handleChange} handleClick={handleClick}/>
+                {/*<input value={value} setValue={setValue}/>*/}
+                <button disabled={nextQuestion} className="next-question"
+                        onClick={nextQuestion}>kolejne
+                </button>
+            </div>
         </div>
-
     )
 }
