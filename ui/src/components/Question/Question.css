@@ -1,0 +1,15 @@
+.question-outer-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+}
+.question-outer-wrap.visible {
+    display: flex;
+}
