@@ -43,13 +43,11 @@ const appendAnswer = (answer)=>{
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    console.log(req);
     res.send('Psy test mini server says: Hi.')
 });
 
 app.post('/', (req, res) => {
     const {body} = req;
-    console.log(body);
 
     if (!body || !body.statSettings || !body.statSettings.group) {
         console.log('corrupted payload');
@@ -61,11 +59,9 @@ app.post('/', (req, res) => {
     } else {
       res.json({status: "group mismatch check url"});
     }
-
-
 });
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`listening at http://localhost:${port}`));
 
 
 
