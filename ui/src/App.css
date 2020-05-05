@@ -28,7 +28,9 @@ body {
 }
 
 .question-wrap {
-  max-width: 15em;
+  max-width: 17em;
+  min-width: 12em;
+    position: relative;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -38,6 +40,8 @@ body {
 }
 
 .question-label {
+    display: block;
+    height: 1.5em;
   float: left;
   padding-bottom: .5em;
 }
@@ -45,6 +49,7 @@ body {
 .question-answer {
   float: left;
   clear: both;
+    margin-bottom: 1em;
 }
 
 .question-screen {
@@ -56,11 +61,21 @@ select, input {
   font-size: .8em;
 }
 
-.btn-main {
+.btn-main, .submit-button, .next-question {
     border: none;
     background: rgba(11, 154, 11, .91);
-    color: white;
     font-size: 1rem;
     font-weight: 600;
     padding: .7em 1.5em;
+
+    clear: both;
+    margin-top: 2em;
+    float: right;
+
+    color: white;
+}
+.submit-button, .btn-main {
+    clear: both;
+    float: none;
+    margin-top: 3rem;
 }

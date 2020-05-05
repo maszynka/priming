@@ -151,5 +151,5 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 div {
-    margin-bottom: 2em;
+    /*margin-bottom: 2em;*/
 }

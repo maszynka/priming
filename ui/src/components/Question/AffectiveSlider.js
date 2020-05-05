@@ -2,7 +2,7 @@ import './AffectiveSlider.css';
 
 import React, { memo } from 'react';
 
-const AffectiveSlider = memo(({handleChange}) => {
+const AffectiveSlider = memo(({handleChange, statSettings}) => {
 
     const Arousal = memo(({handleChange}) => {
         return (
@@ -38,8 +38,9 @@ const AffectiveSlider = memo(({handleChange}) => {
         <>
             <div id='AffectiveSlider'>
                 <div>
+                    <h3>Prosimy o ocenę swojego nastroju na dwóch skalach:</h3>
 
-                    {window.statSettings.uiRandom ? (
+                    {statSettings.uiRandom ? (
                         <>
                             <Arousal
                                 handleChange={handleChange}

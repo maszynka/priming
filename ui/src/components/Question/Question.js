@@ -2,11 +2,50 @@ import React, {useState} from "react";
 import AffectiveSlider from "./AffectiveSlider";
 import './Question.css';
 
-const prieMs = 50;
+const prieMs = 30;
 
-export const Question = ({question, type, answers, p, handleChange, visible, nextQuestion})=> {
+const AnswerInput = ({className, type, answers: answersProps, nameProp, handleChange, handleClick, statSettings})=> {
+    const answers = answersProps ? answersProps.map(answer => ({
+        value: answer,
+        text: answer
+    })) : [];
+    const inputType = {
+        select: () => {
+            const answersWithDefault = [{
+                text: 'wybierz opcje...',
+                value: '',
+            }, ...answers];
+
+            return(
+                <select required className={className} onChange={handleChange} name={nameProp} onClick={handleClick}>
+                    {answersWithDefault.map(
+                        ({value, text}, i) => (
+                            <option key={value} value={value} hidden={i === 0}>{text}</option>
+                        )
+                    )}
+                </select>
+            )
+        },
+        affectiveSlider: ()=> <AffectiveSlider handleChange={handleChange} statSettings={statSettings}/>,
+    };
+
+    return inputType[type]();
+};
+
+export const Question = ({
+ question,
+ type,
+ answers,
+ p,
+ handleChange,
+ handleSubmit,
+ visible,
+ nameProp,
+ nextQuestion,
+ nextQuestionHidden,
+ statSettings
+})=> {
     const [usedQuestion, setUsedQuestion] = useState(question);
-    const [error, setError] = useState(null);
     const letsPrime = () => {
         setUsedQuestion(p);
         setTimeout(() => {
@@ -17,53 +56,36 @@ export const Question = ({question, type, answers, p, handleChange, visible, nex
     const [primed, setPrimed] = useState(false);
 
     const handleClick = ()=> {
-        if (primed || !window.statSettings.primed) return;
+        if (primed || !statSettings.primed) return;
 
         letsPrime();
+
         setPrimed(true);
     };
 
-    // const isValid = (type, newValue) => {
-    //     return {
-    //         select: () => questions.indexOf(decodeURI(newValue)) > 0,
-    //         input: () => newValue.length > 0,
-    //         affectiveSlider: () => true
-    //     }[type]()
-    // };
+    const onClick = (e) => {
+        e.preventDefault();
+        nextQuestion();
+    }
 
-    const AnswerInput = ({className, type, answers, p, nameProp, handleChange, handleClick})=> {
-        const inputType = {
-            select: () => {
-                const answersWithDefault = type === 'select' ? ['wybierz opcje...', ...answers] : answers;
-
-                return(
-                    <select className={className} onChange={handleChange} name={nameProp} onClick={handleClick}>
-                        {answersWithDefault.map(
-                            (answer, i) => {
-                                console.log(answer);
-                                const optionValue = encodeURI(answer);
-                                return <option key={optionValue} value={optionValue} hidden={i === 0}>{answer}</option>
-                            }
-                        )}
-                    </select>
-                )
-            },
-            affectiveSlider: ()=> <AffectiveSlider handleChange={handleChange} />,
-        };
-
-        return inputType[type]();
-    };
 
     return (
         <div className={`question-outer-wrap ${visible ? 'visible' : ''}`}>
             <div className={`question-wrap question-wrap-${type} ${visible ? 'visible' : ''}`}>
-                <span class="error-wrap" hidden={!error}>{error}</span>
+
                 <span className="question-label">{usedQuestion}</span>
-                <AnswerInput className="question-answer" type={type} answers={answers} p={p} handleChange={handleChange} handleClick={handleClick}/>
+                <AnswerInput className="question-answer" type={type} answers={answers} handleChange={handleChange} nameProp={nameProp} handleClick={handleClick} statSettings={statSettings}/>
                 {/*<input value={value} setValue={setValue}/>*/}
-                <button disabled={nextQuestion} className="next-question"
-                        onClick={nextQuestion}>kolejne
-                </button>
+                {!nextQuestionHidden ?
+                    <button
+                        className="next-question"
+                        onClick={onClick}
+                    >
+                        kolejne pytanie
+                    </button> :
+                    <button type="submit" onClick={handleSubmit} className="submit-button">Wyślij odpowiedzi</button>
+                }
+
             </div>
         </div>
     )

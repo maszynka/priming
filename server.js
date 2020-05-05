@@ -27,7 +27,7 @@ const answer = {
 };
 
 const appendAnswer = (answer)=>{
-    const file = `${__dirname}/results/${answer.group}.json`;
+    const file = `${__dirname}/results/${answer.statSettings.group}.json`;
     console.log(file);
     fs.readFile(file, (err, data) => {
         if (err) {
@@ -43,6 +43,7 @@ const appendAnswer = (answer)=>{
 app.use(express.json());
 
 app.get('/', (req, res) => {
+    console.log(req);
     res.send('Psy test mini server says: Hi.')
 });
 
@@ -50,9 +51,13 @@ app.post('/', (req, res) => {
     const {body} = req;
     console.log(body);
 
-    if (groups.includes(body.group)) {
+    if (!body || !body.statSettings || !body.statSettings.group) {
+        console.log('corrupted payload');
+    }
+
+    if (groups.includes(body.statSettings.group)) {
       res.json({status: "ok"});
-      appendAnswer(answer);
+      appendAnswer(body);
     } else {
       res.json({status: "group mismatch check url"});
     }
