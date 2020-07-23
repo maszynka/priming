@@ -4,7 +4,7 @@ import readFiles from './readFiles';
 import tryParseJSON from './tryParse';
 import {writeJsonFile, writeCsvFile} from "./writeFiles";
 
-const data = [
+const sampleData = [
     {
         "statSettings": {
             "startTimestamp": 1588804238554,
